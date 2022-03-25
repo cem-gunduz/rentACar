@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -20,23 +20,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="damages")
-public class Damage {
-	
+@Table(name = "states")
+public class State {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
-	
+	@Column(name = "state_name")
+	private String stateName;
 
-	@Column(name="date")
-	private int date;
-	@Column(name="description")
-	private String description;
+	@OneToMany(mappedBy = "state")
+	private List<Maintenance> maintenances;
 	
 	@ManyToOne
-	@JoinColumn(name="carId")
+	@JoinColumn(name = "carId")
 	private Car car;
-	
-	
+
 }

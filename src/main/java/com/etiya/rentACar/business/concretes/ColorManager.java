@@ -15,43 +15,47 @@ import com.etiya.rentACar.entities.Brand;
 import com.etiya.rentACar.entities.Color;
 
 @Service
-public class ColorManager implements ColorService{
+public class ColorManager implements ColorService {
 
 	private ColorDao colorDao;
 	private ModelMapperService modelMapperService;
-	
-	public ColorManager(ColorDao colorDao,ModelMapperService modelMapperService) {
-		this.colorDao = colorDao;
-		this.modelMapperService=modelMapperService;
-	}
 
+	public ColorManager(ColorDao colorDao, ModelMapperService modelMapperService) {
+		this.colorDao = colorDao;
+		this.modelMapperService = modelMapperService;
+	}
 
 	@Override
 	public void add(CreateColorRequest createColorRequest) {
 		
-		if(colorDao.getByName(createColorRequest.getName()).size()==0) {
-			Color color=this.modelMapperService.forRequest().map(createColorRequest, Color.class);
-			this.colorDao.save(color);
-		}else {
-			throw new RuntimeException("Girdğiniz renk zaten mevcut.");
-		}
+		String colorName=createColorRequest.getName().toLowerCase();
+				
+		checkIfColorExists(colorName);
 		
+		createColorRequest.setName(colorName);
 		
-		
-		
-		
-	}
+		Color color = this.modelMapperService.forRequest().map(createColorRequest, Color.class);
+		this.colorDao.save(color);
+	
 
+	}
 
 	@Override
 	public List<ListColorDto> getAll() {
-		List<Color> colors=this.colorDao.findAll();
-		List<ListColorDto>response=colors.stream().map(color->this.modelMapperService.forDto().map(color,ListColorDto.class ))
+		List<Color> colors = this.colorDao.findAll();
+		List<ListColorDto> response = colors.stream()
+				.map(color -> this.modelMapperService.forDto().map(color, ListColorDto.class))
 				.collect(Collectors.toList());
 		return response;
 	}
-
-
 	
+	private void checkIfColorExists(String colorName) {
+		
+		if (colorDao.getByName(colorName).size() == 0) {
+
+			throw new RuntimeException("Girdğiniz renk zaten mevcut.");
+		} 
+
+	}
 
 }

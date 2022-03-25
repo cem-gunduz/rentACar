@@ -10,5 +10,5 @@ import com.etiya.rentACar.entities.Color;
 @Repository
 public interface ColorDao extends JpaRepository<Color, Integer>{
 
-	List<ListColorDto> getByName(String name);
+	List<Color> getByName(String name);
 }

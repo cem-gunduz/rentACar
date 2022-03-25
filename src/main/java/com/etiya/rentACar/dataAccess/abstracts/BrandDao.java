@@ -11,5 +11,5 @@ import com.etiya.rentACar.entities.Brand;
 @Repository
 public interface BrandDao extends JpaRepository<Brand, Integer>{
 
-	List<ListBrandDto> getByName(String name);
+	List<Brand> getByName(String name);
 }

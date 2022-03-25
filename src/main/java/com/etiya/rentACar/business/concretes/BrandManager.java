@@ -11,6 +11,7 @@ import com.etiya.rentACar.business.responses.brandResponses.ListBrandDto;
 import com.etiya.rentACar.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACar.dataAccess.abstracts.BrandDao;
 import com.etiya.rentACar.entities.Brand;
+import com.etiya.rentACar.entities.Color;
 
 @Service
 public class BrandManager implements BrandService{
@@ -29,12 +30,14 @@ public class BrandManager implements BrandService{
 	@Override
 	public void add(CreateBrandRequest createBrandRequest) {
 		
-		if(brandDao.getByName(createBrandRequest.getName()).size()==0) {
-			Brand brand=this.modelMapperService.forRequest().map(createBrandRequest, Brand.class);
-			this.brandDao.save(brand);
-		}else {
-			throw new RuntimeException("Girdğiniz marka zaten mevcut.");
-		}
+		String brandName=createBrandRequest.getName().toLowerCase();
+		
+		checkIfBrandExists(brandName);
+		
+		createBrandRequest.setName(brandName);
+		
+		Brand brand = this.modelMapperService.forRequest().map(createBrandRequest, Brand.class);
+		this.brandDao.save(brand);
 		
 		
 		
@@ -49,6 +52,15 @@ public class BrandManager implements BrandService{
 		List<ListBrandDto>response=brands.stream().map(brand->this.modelMapperService.forDto().map(brand,ListBrandDto.class ))
 				.collect(Collectors.toList());
 		return response;
+	}
+	
+		private void checkIfBrandExists(String brandName) {
+		
+		if (brandDao.getByName(brandName).size() == 0) {
+
+			throw new RuntimeException("Girdğiniz renk zaten mevcut.");
+		} 
+
 	}
 
 }
