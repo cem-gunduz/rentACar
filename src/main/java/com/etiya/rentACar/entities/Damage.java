@@ -1,5 +1,6 @@
 package com.etiya.rentACar.entities;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="damages")
+@Table(name="car_damages")
 public class Damage {
 	
 	@Id
@@ -28,15 +29,17 @@ public class Damage {
 	@Column(name="id")
 	private int id;
 	
-
-	@Column(name="date")
-	private int date;
+	@Column(name="accidentDate")
+	private LocalDate accidentDate;
+	
+	
 	@Column(name="description")
 	private String description;
 	
 	@ManyToOne
-	@JoinColumn(name="carId")
+	@JoinColumn(name="car_id")
 	private Car car;
+	
 	
 	
 }

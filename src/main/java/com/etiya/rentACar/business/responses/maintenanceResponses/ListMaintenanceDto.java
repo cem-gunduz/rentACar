@@ -1,5 +1,7 @@
 package com.etiya.rentACar.business.responses.maintenanceResponses;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,13 +12,12 @@ import lombok.NoArgsConstructor;
 public class ListMaintenanceDto {
 	private int id;
 
-	private int DateAdded;
+	private LocalDate dateAdded;
 
-	private int DateReturned;
+	private LocalDate dateReturned;
 
 	private String description;
 
-	private int stateId;
 
 	private int carId;
 }

@@ -37,6 +37,9 @@ public class Car {
 	@Column(name="modelYear")
 	private double modelYear;
 	
+	@Column(name="carState")
+	private CarStates carState;
+	
 	@ManyToOne
 	@JoinColumn(name="color_id")
 	private Color color;
@@ -45,11 +48,14 @@ public class Car {
 	@JoinColumn(name="brand_id")
 	private Brand brand;
 	
-	@OneToMany(mappedBy = "car")
-	private List<Damage>damages;
+
+	
 	
 	@OneToMany(mappedBy = "car")
-	private List<Maintenance>maintenances;
+	private List<Damage>carDamages;
+	
+	@OneToMany(mappedBy = "car") //maintanence içindeki car ile mapli
+	private List<Maintenance> carMaintenances;
 	
 	
 }

@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.etiya.rentACar.business.abstracts.ColorService;
 import com.etiya.rentACar.business.requests.colorRequests.CreateColorRequest;
-
+import com.etiya.rentACar.business.requests.colorRequests.DeleteColorRequest;
+import com.etiya.rentACar.business.requests.colorRequests.UpdateColorRequest;
 import com.etiya.rentACar.business.responses.colorResponses.ListColorDto;
 import com.etiya.rentACar.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACar.dataAccess.abstracts.ColorDao;
-import com.etiya.rentACar.entities.Brand;
 import com.etiya.rentACar.entities.Color;
 
 @Service
@@ -51,11 +51,24 @@ public class ColorManager implements ColorService {
 	
 	private void checkIfColorExists(String colorName) {
 		
-		if (colorDao.getByName(colorName).size() == 0) {
+		if (colorDao.getByName(colorName).size() != 0) {
 
 			throw new RuntimeException("Girdğiniz renk zaten mevcut.");
 		} 
 
+	}
+
+	@Override
+	public void update(UpdateColorRequest updateColorRequest) {
+		Color color= this.modelMapperService.forRequest().map(updateColorRequest, Color.class);
+		this.colorDao.save(color);
+		
+	}
+
+	@Override
+	public void delete(DeleteColorRequest deleteColorRequest) {
+		this.colorDao.deleteById(deleteColorRequest.getId());
+		
 	}
 
 }

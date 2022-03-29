@@ -39,9 +39,8 @@ public class MaintenancesController {
 	public List<ListMaintenanceDto> getByCarId(@RequestParam("carId") int id) {
 		return maintenanceService.getByCarId(id);
 	}
-	@GetMapping("/getbystateid")
-    public List<ListMaintenanceDto> getByStateId(@RequestParam("stateId") int id){
-        return this.maintenanceService.getByStateId(id);
-    }
+
+	
+	
 }
 

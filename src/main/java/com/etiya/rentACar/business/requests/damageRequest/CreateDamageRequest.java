@@ -1,5 +1,9 @@
 package com.etiya.rentACar.business.requests.damageRequest;
 
+import java.time.LocalDate;
+
+import javax.persistence.Column;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -11,9 +15,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateDamageRequest {
 
-	@JsonIgnore
+	@JsonIgnore //bunu maplemesin
 	private int id;
-	private int date;
+	
+	
+	private LocalDate accidentDate;
+	
+	
 	private String description;
+	
 	private int carId;
 }

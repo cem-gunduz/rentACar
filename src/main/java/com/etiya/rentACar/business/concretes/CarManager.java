@@ -10,14 +10,15 @@ import org.springframework.stereotype.Service;
 
 import com.etiya.rentACar.business.abstracts.CarService;
 import com.etiya.rentACar.business.requests.carRequests.CreateCarRequest;
+import com.etiya.rentACar.business.requests.carRequests.DeleteCarRequest;
+import com.etiya.rentACar.business.requests.carRequests.UpdateCarRequest;
+import com.etiya.rentACar.business.responses.carResponses.CarDto;
 import com.etiya.rentACar.business.responses.carResponses.ListCarDto;
-import com.etiya.rentACar.business.responses.colorResponses.ListColorDto;
 import com.etiya.rentACar.core.crossCuttingConcerns.exceptionHandling.BusinessException;
 import com.etiya.rentACar.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACar.dataAccess.abstracts.CarDao;
-import com.etiya.rentACar.entities.Brand;
 import com.etiya.rentACar.entities.Car;
-import com.etiya.rentACar.entities.Color;
+import com.etiya.rentACar.entities.CarStates;
 
 @Service
 public class CarManager implements CarService {
@@ -34,6 +35,14 @@ public class CarManager implements CarService {
 	@Override
 	public void add(CreateCarRequest createCarRequest) {
 
+		
+		
+		
+		if(createCarRequest.getState()==CarStates.UnderMaintenance ) {
+			throw new BusinessException("Araç zaten bakımda.");
+		}
+		
+		
 		Car car = this.modelMapperService.forRequest().map(createCarRequest, Car.class);// ilgili alanları mapler
 		this.carDao.save(car);
 
@@ -72,5 +81,56 @@ public class CarManager implements CarService {
 				.map(car -> this.modelMapperService.forDto().map(car, ListCarDto.class)).collect(Collectors.toList());
 		return response;
 	}
+	 
+
+	@Override
+	public CarDto getById(int id) {
+		
+		Car car=this.carDao.getById(id);
+		
+		CarDto carDto = this.modelMapperService.forRequest().map(car, CarDto.class);
+		return carDto;
+	}
+
+	@Override
+	public ListCarDto getAllById(int id) {
+		
+		return null;
+	}
+
+	@Override
+	public void update(UpdateCarRequest updateCarRequest) {
+		checkIfCarExist(updateCarRequest.getId());
+		
+		Car car= this.modelMapperService.forRequest().map(updateCarRequest, Car.class);
+		this.carDao.save(car);
+		
+	}
+
+	@Override
+	public void delete(DeleteCarRequest deleteCarRequest) {
+		this.carDao.deleteById(deleteCarRequest.getId());
+		
+		
+	}
+	
+	public void checkIfCarExist(int id) {
+		if(this.carDao.getById(id)==null) {
+			throw new BusinessException("Böyle bir araba mevcut değil");
+		}
+	}
+
+	@Override
+	public void updateMaintenanceStatus(int id) {
+		Car car = carDao.getById(id);
+        car.setCarState(CarStates.UnderMaintenance);
+        carDao.save(car);
+		
+	}
+	
+	
+	
+	
+
 
 }

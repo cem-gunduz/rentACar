@@ -9,6 +9,6 @@ import com.etiya.rentACar.entities.Damage;
 
 @Repository
 public interface DamageDao extends JpaRepository<Damage, Integer>{
-	 List<Damage> getByCarId(int id);
+	 List<Damage> getAllByCarId(int carId);
 	 
 }

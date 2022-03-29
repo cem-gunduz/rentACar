@@ -1,5 +1,4 @@
-package com.etiya.rentACar.business.requests.maintenanceRequests;
-
+package com.etiya.rentACar.business.requests.damageRequest;
 
 import java.time.LocalDate;
 
@@ -12,16 +11,15 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateMaintenanceRequest {
+public class DeleteDamageRequest {
 
-	@JsonIgnore
 	private int id;
-
-	private LocalDate DateAdded;
-
-	private LocalDate DateReturned;
-
+	
+	
+	private LocalDate accidentDate;
+	
+	
 	private String description;
-
+	
 	private int carId;
 }

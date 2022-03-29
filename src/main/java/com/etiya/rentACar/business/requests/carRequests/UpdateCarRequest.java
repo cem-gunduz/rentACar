@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateCarRequest {
+public class UpdateCarRequest {
 
-	@JsonIgnore
+	
 	private int id;
 	
 	private double dailyPrice;

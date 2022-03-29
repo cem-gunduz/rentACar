@@ -10,8 +10,8 @@ import com.etiya.rentACar.entities.Maintenance;
 @Repository
 public interface MaintenanceDao extends JpaRepository<Maintenance, Integer> {
 
-	List<Maintenance>getByCarIdAndStateId(int carId,int stateId);
+    Boolean existsMaintenanceByCarId (int carId);
 	List<Maintenance>getByCarId(int id);
-	List<Maintenance>getByStateId(int id);
+	
 
 }

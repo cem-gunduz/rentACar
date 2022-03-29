@@ -1,6 +1,8 @@
-package com.etiya.rentACar.business.responses.damageResponses;
+package com.etiya.rentACar.business.requests.damageRequest;
 
 import java.time.LocalDate;
+
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ListDamageDto {
+public class UpdateDamageRequest {
 
+	
 	private int id;
 	
 	
@@ -19,7 +22,6 @@ public class ListDamageDto {
 	
 	private String description;
 	
-	private String carDescription;
-	
 	private int carId;
+
 }
