@@ -1,10 +1,6 @@
-package com.etiya.rentACar.business.requests.damageRequest;
+package com.etiya.rentACar.business.responses.carDamageResponses;
 
 import java.time.LocalDate;
-
-import javax.persistence.Column;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateDamageRequest {
+public class ListCarDamageDto {
 
-	@JsonIgnore //bunu maplemesin
 	private int id;
 	
 	
@@ -23,6 +18,8 @@ public class CreateDamageRequest {
 	
 	
 	private String description;
+	
+	private String carDescription;
 	
 	private int carId;
 }

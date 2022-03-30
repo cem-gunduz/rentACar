@@ -2,6 +2,8 @@ package com.etiya.rentACar.api.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,7 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.rentACar.business.abstracts.CarService;
 import com.etiya.rentACar.business.requests.carRequests.CreateCarRequest;
 import com.etiya.rentACar.business.requests.carRequests.UpdateCarRequest;
+import com.etiya.rentACar.business.requests.carRequests.UpdateCarStateRequest;
 import com.etiya.rentACar.business.responses.carResponses.ListCarDto;
+import com.etiya.rentACar.core.utilities.results.DataResult;
+import com.etiya.rentACar.core.utilities.results.Result;
 
 
 
@@ -29,31 +34,38 @@ public class CarsController {
 		}
 		
 		@PostMapping("/add")
-		public void add(@RequestBody CreateCarRequest createCarRequest) {
-			this.carService.add(createCarRequest);
+		public Result add(@RequestBody @Valid CreateCarRequest createCarRequest) {
+			return this.carService.add(createCarRequest);
 		}
 		@GetMapping("/getall")
-		public List<ListCarDto> getAll() {
+		public DataResult<List<ListCarDto>> getAll() {
 			return this.carService.getAll();
 		}
 		@GetMapping("/getallbymodelyear")
-		public List<ListCarDto> getAllByModelYear(@RequestParam("modelYear") double modelYear) {
+		public DataResult<List<ListCarDto>> getAllByModelYear(@RequestParam("modelYear") double modelYear) {
 			return this.carService.getAllByModelYear(modelYear);
 		}
 		
 		@GetMapping("/getallpaged")
-		public List<ListCarDto> getAllPaged(int pageNo,int pageSize){
+		public DataResult<List<ListCarDto>> getAllPaged(int pageNo,int pageSize){
 			return this.carService.getAllPaged(pageNo,pageSize);
 			
 		}
 		@GetMapping("/getallsorted")
-		public List<ListCarDto> getAllSorted(){
+		public DataResult<List<ListCarDto>> getAllSorted(){
 			return this.carService.getAllSorted();
 		}
 		
 		@PutMapping("/update")
-		public void update(@RequestBody UpdateCarRequest updateCarRequest) {
-			this.carService.update(updateCarRequest);
+		public Result update(@RequestBody @Valid UpdateCarRequest updateCarRequest) {
+			return this.carService.update(updateCarRequest);
 		}
+		
+		@PutMapping("/updatecarstate")
+		public Result updateCarState(@RequestBody @Valid UpdateCarStateRequest updateCarStateRequest) {
+			return this.carService.updateCarState(updateCarStateRequest);
+		}
+		
+		
 	}
 

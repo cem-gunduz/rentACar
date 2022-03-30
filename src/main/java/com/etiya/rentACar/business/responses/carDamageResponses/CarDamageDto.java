@@ -1,4 +1,4 @@
-package com.etiya.rentACar.business.responses.damageResponses;
+package com.etiya.rentACar.business.responses.carDamageResponses;
 
 import java.time.LocalDate;
 
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DamageDto {
+public class CarDamageDto {
 
 	private int id;
 

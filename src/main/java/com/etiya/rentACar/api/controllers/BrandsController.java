@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.rentACar.business.abstracts.BrandService;
 import com.etiya.rentACar.business.requests.brandRequests.CreateBrandRequest;
 import com.etiya.rentACar.business.responses.brandResponses.ListBrandDto;
+import com.etiya.rentACar.core.utilities.results.DataResult;
+import com.etiya.rentACar.core.utilities.results.Result;
 
 @RestController
 @RequestMapping("/api/brands")
@@ -26,13 +28,13 @@ public class BrandsController {
 	
 	
 	@PostMapping("/add")
-	public void add(@RequestBody CreateBrandRequest createBrandRequest) {
-		this.brandService.add(createBrandRequest);
+	public Result add(@RequestBody CreateBrandRequest createBrandRequest) {
+	return this.brandService.add(createBrandRequest);
 	}
 	@GetMapping("/getall")
-	public List<ListBrandDto> getAll() {
-		return this.brandService.getAll();
-	}
+	public DataResult<List<ListBrandDto>> getAll() {
+		return this.brandService.getAll();	} 
+		
 }
 	
 

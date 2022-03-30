@@ -1,6 +1,7 @@
 package com.etiya.rentACar.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -19,23 +21,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "car_maintenances")
-public class Maintenance {
-
+@Table(name="car_damages")
+public class CarDamage {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name="id")
 	private int id;
-	@Column(name = "dateAdded")
-	private LocalDate dateAdded;
-	@Column(name = "returnData")
-	private LocalDate returnData;
-	@Column(name = "description")
+	
+	@Column(name="accidentDate")
+	private LocalDate accidentDate;
+	
+	
+	@Column(name="description")
 	private String description;
-
+	
 	@ManyToOne
-	@JoinColumn(name = "car_id")
+	@JoinColumn(name="car_id")
 	private Car car;
+	
 	
 	
 }
