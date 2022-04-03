@@ -37,6 +37,10 @@ public class CreateCarRequest {
 	private int colorId;
 	@NotNull
 	private int brandId;
-	
+
 	private CarStates state;
+
+	@NotNull
+	@Length(min=2)
+	private String city;
 }

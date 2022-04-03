@@ -13,7 +13,6 @@ import com.etiya.rentACar.business.requests.maintenanceRequests.CreateMaintenanc
 import com.etiya.rentACar.business.requests.maintenanceRequests.DeleteMaintenanceRequest;
 import com.etiya.rentACar.business.requests.maintenanceRequests.UpdateMaintenanceRequest;
 import com.etiya.rentACar.business.responses.carResponses.CarDto;
-import com.etiya.rentACar.business.responses.colorResponses.ListColorDto;
 import com.etiya.rentACar.business.responses.maintenanceResponses.ListMaintenanceDto;
 import com.etiya.rentACar.core.crossCuttingConcerns.exceptionHandling.BusinessException;
 import com.etiya.rentACar.core.utilities.mapping.ModelMapperService;
@@ -21,16 +20,16 @@ import com.etiya.rentACar.core.utilities.results.DataResult;
 import com.etiya.rentACar.core.utilities.results.Result;
 import com.etiya.rentACar.core.utilities.results.SuccessDataResult;
 import com.etiya.rentACar.core.utilities.results.SuccessResult;
-import com.etiya.rentACar.dataAccess.abstracts.CarMaintenanceDao;
-import com.etiya.rentACar.entities.CarMaintenance;
+import com.etiya.rentACar.dataAccess.abstracts.MaintenanceDao;
+import com.etiya.rentACar.entities.Maintenance;
 @Service
 public class MaintenanceManager implements MaintenanceService {
 
-	private CarMaintenanceDao carMaintenanceDao;
+	private MaintenanceDao maintenanceDao;
 	private ModelMapperService modelMapperService;
 	private CarService carService;
-	public MaintenanceManager(CarMaintenanceDao carMaintenanceDao, ModelMapperService modelMapperService,CarService carService) {
-		this.carMaintenanceDao = carMaintenanceDao;
+	public MaintenanceManager(MaintenanceDao maintenanceDao, ModelMapperService modelMapperService, CarService carService) {
+		this.maintenanceDao = maintenanceDao;
 		this.modelMapperService = modelMapperService;
 		this.carService=carService;
 	}
@@ -40,8 +39,8 @@ public class MaintenanceManager implements MaintenanceService {
 		
 		checkIfCarExistsInMaintenance(createMaintenanceRequest.getCarId());
 		
-        CarMaintenance carMaintenance= this.modelMapperService.forRequest().
-                map(createMaintenanceRequest,CarMaintenance.class);
+        Maintenance carMaintenance= this.modelMapperService.forRequest().
+                map(createMaintenanceRequest, Maintenance.class);
 
         CarDto car=carService.getById(createMaintenanceRequest.getCarId());
         
@@ -50,7 +49,7 @@ public class MaintenanceManager implements MaintenanceService {
         carService.updateMaintenanceStatus(updateCarRequest.getId());
         
         
-       this.carMaintenanceDao.save(carMaintenance);
+       this.maintenanceDao.save(carMaintenance);
        
        return new SuccessResult("BRAND_ADDED");
        
@@ -60,7 +59,7 @@ public class MaintenanceManager implements MaintenanceService {
 
 	@Override
 	public DataResult<List<ListMaintenanceDto>> getAll() {
-		List<CarMaintenance> maintenances = this.carMaintenanceDao.findAll();
+		List<Maintenance> maintenances = this.maintenanceDao.findAll();
 		List<ListMaintenanceDto> response = maintenances.stream()
 				.map(maintenance -> this.modelMapperService.forDto().map(maintenance, ListMaintenanceDto.class))
 				.collect(Collectors.toList());
@@ -69,7 +68,7 @@ public class MaintenanceManager implements MaintenanceService {
 
 	@Override
 	public DataResult<List<ListMaintenanceDto>> getByCarId(int id) {
-		List<CarMaintenance> maintenances = this.carMaintenanceDao.getByCarId(id);
+		List<Maintenance> maintenances = this.maintenanceDao.getByCarId(id);
 		List<ListMaintenanceDto> response = maintenances.stream()
 				.map(maintenance -> this.modelMapperService.forDto().map(maintenance, ListMaintenanceDto.class))
 				.collect(Collectors.toList());
@@ -81,15 +80,15 @@ public class MaintenanceManager implements MaintenanceService {
 	public Result update(UpdateMaintenanceRequest updateMaintenanceRequest) {
 		checkIfCarExist(updateMaintenanceRequest.getCarId());
 		
-		CarMaintenance carMaintenance= this.modelMapperService.forRequest().map(updateMaintenanceRequest, CarMaintenance.class);
-		this.carMaintenanceDao.save(carMaintenance);
+		Maintenance carMaintenance= this.modelMapperService.forRequest().map(updateMaintenanceRequest, Maintenance.class);
+		this.maintenanceDao.save(carMaintenance);
 		  return new SuccessResult("BRAND_UPDATED");
 	}
 
 	@Override
 	public Result delete(DeleteMaintenanceRequest deleteMaintenanceRequest) {
 		
-		this.carMaintenanceDao.deleteById(deleteMaintenanceRequest.getId());
+		this.maintenanceDao.deleteById(deleteMaintenanceRequest.getId());
 		  return new SuccessResult("BRAND_DELETED");
 	}
 	
@@ -101,8 +100,8 @@ public class MaintenanceManager implements MaintenanceService {
 	}
 	
 	public void checkIfCarExistsInMaintenance(int carId) {
-		if(this.carMaintenanceDao.existsMaintenanceByCarId(carId)) {
-			throw new BusinessException(BusinessMessages.MaintenanceMessages.CAR_UNDERMAINTENANCE);
+		if(this.maintenanceDao.existsMaintenanceByCarId(carId)) {
+			throw new BusinessException(BusinessMessages.MaintenanceMessages.CAR_UNDER_MAINTENANCE);
 		}
 	}
 	

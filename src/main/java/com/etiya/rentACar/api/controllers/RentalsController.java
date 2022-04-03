@@ -4,48 +4,55 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.etiya.rentACar.business.abstracts.RentalService;
-import com.etiya.rentACar.business.requests.carDamageRequest.CreateCarDamageRequest;
-import com.etiya.rentACar.business.requests.carDamageRequest.UpdateCarDamageRequest;
 import com.etiya.rentACar.business.requests.rentalRequests.CreateRentalRequest;
 import com.etiya.rentACar.business.requests.rentalRequests.UpdateRentalRequest;
-import com.etiya.rentACar.business.responses.maintenanceResponses.ListMaintenanceDto;
 import com.etiya.rentACar.business.responses.rentalResponses.ListRentalDto;
 import com.etiya.rentACar.core.utilities.results.DataResult;
 import com.etiya.rentACar.core.utilities.results.Result;
-
+import com.etiya.rentACar.business.requests.rentalRequests.UpdateRentalRequest;
+import com.etiya.rentACar.business.requests.rentalRequests.UpdateReturnDateRequest;
 @RestController
 @RequestMapping("/api/rentals")
 public class RentalsController {
 
-	private RentalService rentalService;
 
-	public RentalsController(RentalService rentalService) {
-		this.rentalService = rentalService;
-	}
-	
-	@PostMapping("/add")
-	public Result add(@RequestBody @Valid CreateRentalRequest createRentalRequest) {
-		return this.rentalService.add(createRentalRequest);
-	}
-	
-	
-	@GetMapping("/getall")
-	public DataResult<List<ListRentalDto>> getAll() {
-		return rentalService.getAll();
-	}
-	
-	@PutMapping("/update")
-	public Result update(@RequestBody @Valid UpdateRentalRequest updateRentalRequest) {
-		
-		return this.rentalService.update(updateRentalRequest);
-	}
+		private RentalService rentalService;
+
+		public RentalsController(RentalService rentalService) {
+			this.rentalService = rentalService;
+
+		}
+
+		@PostMapping("/add")
+		public Result add(@RequestBody @Valid CreateRentalRequest createRentalRequest, @RequestParam("AdditionalPropertyIdentity") List<Integer>additionalPropertyIdentities) {
+			return this.rentalService.add(createRentalRequest,additionalPropertyIdentities);
+		}
+
+
+		@GetMapping("/getall")
+		public DataResult<List<ListRentalDto>> getAll() {
+			return rentalService.getAll();
+		}
+
+		@PutMapping("/update")
+		public Result update(@RequestBody @Valid UpdateRentalRequest updateRentalRequest,@RequestParam("AdditionalPropertyIdentity") List<Integer>additionalPropertyIdentities) {
+
+			return this.rentalService.update(updateRentalRequest,additionalPropertyIdentities);
+		}
+
+		@PutMapping("/updatereturndate")
+		public Result updateRentalReturnDate(@RequestBody UpdateReturnDateRequest updateReturnDateRequest){
+
+			return this.rentalService.updateRentalReturnDate(updateReturnDateRequest);
+		}
+
+//    @PostMapping("/latefee")
+//    public Result lateFee(@RequestBody DifferentRentDeliveryCityRequest differentRentDeliveryCityRequest){
+//
+//        return this.rentalService.lateFee(differentRentDeliveryCityRequest);
+//    }
 	
 }

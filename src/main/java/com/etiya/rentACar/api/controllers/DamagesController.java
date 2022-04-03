@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.etiya.rentACar.business.abstracts.CarDamageService;
-import com.etiya.rentACar.business.requests.carDamageRequest.CreateCarDamageRequest;
-import com.etiya.rentACar.business.requests.carDamageRequest.DeleteCarDamageRequest;
-import com.etiya.rentACar.business.requests.carDamageRequest.UpdateCarDamageRequest;
-import com.etiya.rentACar.business.responses.carDamageResponses.ListCarDamageDto;
+import com.etiya.rentACar.business.abstracts.DamageService;
+import com.etiya.rentACar.business.requests.damageRequest.CreateDamageRequest;
+import com.etiya.rentACar.business.requests.damageRequest.DeleteDamageRequest;
+import com.etiya.rentACar.business.requests.damageRequest.UpdateDamageRequest;
+import com.etiya.rentACar.business.responses.damageResponses.ListDamageDto;
 import com.etiya.rentACar.core.utilities.results.DataResult;
 import com.etiya.rentACar.core.utilities.results.Result;
 
@@ -25,43 +25,43 @@ import com.etiya.rentACar.core.utilities.results.Result;
 @RequestMapping("/api/damages")
 public class DamagesController {
 
-	private CarDamageService carDamageService;
+	private DamageService damageService;
 
-	public DamagesController(CarDamageService damageService) {
-		this.carDamageService = damageService;
+	public DamagesController(DamageService damageService) {
+		this.damageService = damageService;
 	}
 	
 	@PostMapping("/add")
-	public Result add(@RequestBody @Valid CreateCarDamageRequest createDamageRequest) {
-		return this.carDamageService.add(createDamageRequest);
+	public Result add(@RequestBody @Valid CreateDamageRequest createDamageRequest) {
+		return this.damageService.add(createDamageRequest);
 	}
 	
 	@GetMapping("/getall")
-	public DataResult<List<ListCarDamageDto>> getAll(){
-		return carDamageService.getAll();
+	public DataResult<List<ListDamageDto>> getAll(){
+		return this.damageService.getAll();
 	}
 	@GetMapping("/getByCarId")
-    public DataResult<List<ListCarDamageDto>> getByCarId(@RequestParam("carId") int id ){
-        return this.carDamageService.getByCarId(id);
+    public DataResult<List<ListDamageDto>> getByCarId(@RequestParam("carId") int id ){
+        return this.damageService.getByCarId(id);
     }
 	@GetMapping("/getallpaged")
-	public DataResult<List<ListCarDamageDto>> getAllPaged(int pageNo,int pageSize){
-		return this.carDamageService.getAllPaged(pageNo,pageSize);
+	public DataResult<List<ListDamageDto>> getAllPaged(int pageNo, int pageSize){
+		return this.damageService.getAllPaged(pageNo,pageSize);
 		
 	}
 	@GetMapping("/getallsorted")
-	public DataResult<List<ListCarDamageDto>> getAllSorted(String option,String field){
-		return this.carDamageService.getAllSorted(option,field);
+	public DataResult<List<ListDamageDto>> getAllSorted(String option, String field){
+		return this.damageService.getAllSorted(option,field);
 	}
 	
 	@PutMapping("/update")
-	public Result update(@RequestBody @Valid UpdateCarDamageRequest updateCarDamageRequest) {
+	public Result update(@RequestBody @Valid UpdateDamageRequest updateCarDamageRequest) {
 		
-		return this.carDamageService.update(updateCarDamageRequest);
+		return this.damageService.update(updateCarDamageRequest);
 	}
 	@DeleteMapping("/delete")
-	public Result delete(@RequestBody  DeleteCarDamageRequest deleteCarDamageRequest) {
-		return this.carDamageService.delete(deleteCarDamageRequest);
+	public Result delete(@RequestBody DeleteDamageRequest deleteCarDamageRequest) {
+		return this.damageService.delete(deleteCarDamageRequest);
 	}
 	
 	

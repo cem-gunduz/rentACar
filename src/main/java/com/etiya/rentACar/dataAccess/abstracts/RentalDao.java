@@ -8,6 +8,6 @@ import com.etiya.rentACar.entities.Rental;
 
 @Repository
 public interface RentalDao extends JpaRepository<Rental, Integer> {
-
+	Rental getByCarId(int id);
 	Rental getById(int id);
 }

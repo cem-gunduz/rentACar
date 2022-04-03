@@ -3,6 +3,7 @@ package com.etiya.rentACar.business.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.etiya.rentACar.business.requests.carRequests.DeleteCarRequest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -10,14 +11,12 @@ import org.springframework.stereotype.Service;
 
 import com.etiya.rentACar.business.abstracts.CarService;
 import com.etiya.rentACar.business.constants.messages.BusinessMessages;
-import com.etiya.rentACar.business.requests.carDamageRequest.DeleteCarDamageRequest;
+import com.etiya.rentACar.business.requests.damageRequest.DeleteDamageRequest;
 import com.etiya.rentACar.business.requests.carRequests.CreateCarRequest;
 import com.etiya.rentACar.business.requests.carRequests.UpdateCarRequest;
-import com.etiya.rentACar.business.requests.carRequests.UpdateCarStateRequest;
-import com.etiya.rentACar.business.responses.carDamageResponses.ListCarDamageDto;
+import com.etiya.rentACar.business.requests.carRequests.UpdateCarStatusRequest;
 import com.etiya.rentACar.business.responses.carResponses.CarDto;
 import com.etiya.rentACar.business.responses.carResponses.ListCarDto;
-import com.etiya.rentACar.business.responses.colorResponses.ListColorDto;
 import com.etiya.rentACar.core.crossCuttingConcerns.exceptionHandling.BusinessException;
 import com.etiya.rentACar.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACar.core.utilities.results.DataResult;
@@ -25,11 +24,8 @@ import com.etiya.rentACar.core.utilities.results.Result;
 import com.etiya.rentACar.core.utilities.results.SuccessDataResult;
 import com.etiya.rentACar.core.utilities.results.SuccessResult;
 import com.etiya.rentACar.dataAccess.abstracts.CarDao;
-import com.etiya.rentACar.entities.Brand;
 import com.etiya.rentACar.entities.Car;
-import com.etiya.rentACar.entities.CarDamage;
 import com.etiya.rentACar.entities.CarStates;
-import com.etiya.rentACar.entities.Color;
 
 @Service
 public class CarManager implements CarService {
@@ -55,6 +51,12 @@ public class CarManager implements CarService {
 		this.carDao.save(car);
 		return new SuccessResult("BRAND_ADDED");
 
+	}
+
+	@Override
+	public Result delete(DeleteCarRequest deleteCarRequest) {
+		this.carDao.deleteById(deleteCarRequest.getId());
+		return new SuccessResult("Car deleted");
 	}
 
 	@Override
@@ -101,11 +103,17 @@ public class CarManager implements CarService {
 		CarDto carDto = this.modelMapperService.forRequest().map(car, CarDto.class);
 		 return carDto;
 	}
-
 	@Override
-	public DataResult<ListCarDto> getAllById(int id) {
-		
-		return null;
+	public DataResult<CarDto> getByCarId(int id) {
+		Car car = this.carDao.getById(id);
+		CarDto response = this.modelMapperService.forDto().map(car, CarDto.class);
+		return new SuccessDataResult<CarDto>(response);
+	}
+	@Override
+	public DataResult<List<ListCarDto>> getAllById(int id) {
+		List<Car> cars =this.carDao.getAllById(id);
+		List<ListCarDto> response = cars.stream().map(car -> this.modelMapperService.forDto().map(car, ListCarDto.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<ListCarDto>>(response);
 	}
 
 	@Override
@@ -114,17 +122,33 @@ public class CarManager implements CarService {
 		
 		Car car= this.modelMapperService.forRequest().map(updateCarRequest, Car.class);
 		this.carDao.save(car);
-		return new SuccessResult("BRAND_UPDATED");
+		return new SuccessResult("Car updated");
+	}
+
+
+	@Override
+	public void updateCarStatusToAdd(int id) {
+		Car car = this.carDao.getById(id);
+		car.setCarState(CarStates.UnderMaintenance);
+		this.carDao.save(car);
 	}
 
 	@Override
-	public Result delete(DeleteCarDamageRequest deleteCarDamageRequest) {
-		this.carDao.deleteById(deleteCarDamageRequest.getId());
-		return new SuccessResult("BRAND_DELETED");
-		
-		
+	public void checkIfCarAvailable(int id) {
+		Car car = carDao.getById(id);
+		if(car.getCarState() != CarStates.Available) {
+			throw new BusinessException(BusinessMessages.CarStateMessage.CAR_NOT_AVAILABLE);
+		}
 	}
-	
+
+	@Override
+	public DataResult<List<ListCarDto>> getAllByCity(String city) {
+		List<Car> cars = this.carDao.getAllByCity(city);
+		List<ListCarDto> response = cars.stream().map(car -> this.modelMapperService.forDto().map(car, ListCarDto.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<ListCarDto>>(response);
+	}
+
+
 	public void checkIfCarExist(int id) {
 		if(this.carDao.getById(id)==null) {
 			throw new BusinessException(BusinessMessages.CarMessage.CAR_EXISTS);
@@ -140,24 +164,24 @@ public class CarManager implements CarService {
         return new SuccessResult("BRAND_UPDATED");
 		
 	}
-	
-	public Result updateCarState(UpdateCarStateRequest updateCarStateRequest) {
+	@Override
+	public DataResult<CarDto> updateCarState(UpdateCarStatusRequest updateCarStateRequest) {
 		Car car = carDao.getById(updateCarStateRequest.getId());
 		car.setCarState(updateCarStateRequest.getCarState());
 		this.carDao.save(car);
-		return new SuccessResult("STATE_UPDATED");
+		CarDto carDto = this.modelMapperService.forDto().map(car, CarDto.class);
+		return new SuccessDataResult<CarDto>(carDto);
 	}
-	
+	@Override
 	public void checkIfCarAvaible(int id) {
 		Car car = carDao.getById(id);
 		if(car.getCarState() == CarStates.UnderMaintenance || car.getCarState() == CarStates.Rented) {
 			throw new BusinessException(BusinessMessages.CarStateMessage.CAR_NOT_AVAILABLE);
 		} 
-	} 
-	
-	
-	
-	
+	}
+
+
+
 
 
 }

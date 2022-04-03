@@ -19,8 +19,6 @@ import com.etiya.rentACar.core.utilities.results.SuccessDataResult;
 import com.etiya.rentACar.core.utilities.results.SuccessResult;
 import com.etiya.rentACar.dataAccess.abstracts.BrandDao;
 import com.etiya.rentACar.entities.Brand;
-import com.etiya.rentACar.entities.CarDamage;
-import com.etiya.rentACar.entities.Color;
 
 @Service
 public class BrandManager implements BrandService {
@@ -69,17 +67,17 @@ public class BrandManager implements BrandService {
 	}
 
 	@Override
-	public void update(UpdateBrandRequest updateBrandRequest) {
+	public Result update(UpdateBrandRequest updateBrandRequest) {
 
-		Brand brand = this.modelMapperService.forRequest().map(updateBrandRequest, Brand.class);
+		Brand brand= this.modelMapperService.forRequest().map(updateBrandRequest, Brand.class);
 		this.brandDao.save(brand);
-
+		return new SuccessResult("Brand updated");
 	}
 
 	@Override
-	public void delete(DeleteBrandRequest deleteBrandRequest) {
+	public Result delete(DeleteBrandRequest deleteBrandRequest) {
 		this.brandDao.deleteById(deleteBrandRequest.getId());
-
+		return new SuccessResult("Brand deleted");
 	}
 
 }

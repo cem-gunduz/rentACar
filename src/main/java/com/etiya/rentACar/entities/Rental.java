@@ -40,5 +40,30 @@ public class Rental {
 	@ManyToOne
 	@JoinColumn(name="customer_id")
 	private Customer customer;
-	
+
+	@Column(name="totalPrice")
+	private double totalPrice;
+
+	@Column(name="cityFee")
+	private double cityFee;
+//    @OneToMany(mappedBy = "rental")
+//    private List<AdditionalProperty> additionalProperties;
+	@ManyToOne
+	@JoinColumn(name="additionalProperty_id")
+	private AdditionalProperty additionalProperty;
+
+
+	@ManyToOne
+	@JoinColumn(name="returnCityId",referencedColumnName = "id")
+	private City returnCity;
+
+	@ManyToOne
+	@JoinColumn(name="rentCityId",referencedColumnName = "id")
+	private City rentCity;
+
+
+
+   /* @ManyToOne
+    @JoinColumn(name="city")
+    private City city;*/
 }

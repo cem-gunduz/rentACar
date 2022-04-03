@@ -33,25 +33,21 @@ public class RentACarApplication {
 	}
 
 	@ExceptionHandler
-	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	public ErrorDataResult<Object> handleValidationExceptions(
-			MethodArgumentNotValidException methodArgumentNotValidException) {
-
-		Map<String, String> validationErrors = new HashMap<String, String>();
-		for (FieldError fieldError : methodArgumentNotValidException.getBindingResult().getFieldErrors()) {
-
-			validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
+	@ResponseStatus(code= HttpStatus.BAD_REQUEST)
+	public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException methodArgumentNotValidException){
+		Map<String,String> validationErrors = new HashMap<String,String>();
+		for (FieldError fieldError: methodArgumentNotValidException.getBindingResult().getFieldErrors()){
+			validationErrors.put(fieldError.getField(),fieldError.getDefaultMessage());
 		}
-		ErrorDataResult<Object> errorDataResult = new ErrorDataResult<Object>(validationErrors, "VALIDATION_ERROR(S)");
 
+		ErrorDataResult<Object> errorDataResult = new ErrorDataResult<Object>(validationErrors,"VALIDATION_ERRORS(S)");
 		return errorDataResult;
-
 	}
 
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ErrorDataResult<Object> handleBusinessException(BusinessException businessException) {
-		ErrorDataResult<Object> errorResults = new ErrorDataResult<>(businessException.getMessage(), "Validate.Error");
+		ErrorDataResult<Object> errorResults = new ErrorDataResult<>(businessException.getMessage(), "Business.Error");
 		return errorResults;
 	}
 

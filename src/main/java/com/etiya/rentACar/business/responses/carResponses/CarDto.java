@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,4 +20,7 @@ public class CarDto {
 	private String brandName;
 	private String colorName;
 	private CarStates state;
+
+	private LocalDate maintenanceReturnDate;
+	private String city;
 }

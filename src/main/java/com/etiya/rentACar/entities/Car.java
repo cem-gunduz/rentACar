@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -51,10 +50,10 @@ public class Car {
 	
 
 	@OneToMany(mappedBy = "car")
-	private List<CarDamage>carDamages;
+	private List<Damage>damages;
 	
 	@OneToMany(mappedBy = "car") //maintanence içindeki car ile mapli
-	private List<CarMaintenance> carMaintenances;
+	private List<Maintenance> maintenances;
 	
 	@OneToMany(mappedBy = "car")
 	private List<Rental> rentals;
@@ -62,7 +61,11 @@ public class Car {
 	@ManyToOne
 	@JoinColumn(name="customer_id")
 	private Customer customer;
-	
-	
-	
+
+	@ManyToOne
+	@JoinColumn(name="city_id")
+	private City city;
+
+
+
 }

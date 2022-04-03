@@ -4,11 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.etiya.rentACar.business.abstracts.ColorService;
 import com.etiya.rentACar.business.requests.colorRequests.CreateColorRequest;
@@ -16,7 +12,7 @@ import com.etiya.rentACar.business.requests.colorRequests.CreateColorRequest;
 import com.etiya.rentACar.business.responses.colorResponses.ListColorDto;
 import com.etiya.rentACar.core.utilities.results.DataResult;
 import com.etiya.rentACar.core.utilities.results.Result;
-
+import com.etiya.rentACar.business.requests.colorRequests.DeleteColorRequest;
 @RestController
 @RequestMapping("/api/colors")
 public class ColorsController {
@@ -36,7 +32,10 @@ public class ColorsController {
 	public DataResult<List<ListColorDto>> getAll() {
 		return this.colorService.getAll();
 	}
-	
 
+	@DeleteMapping("/delete")
+	public Result delete(@RequestBody @Valid DeleteColorRequest deleteColorRequest){
+		return this.colorService.delete(deleteColorRequest);
+	}
 	
 }

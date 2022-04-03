@@ -25,5 +25,14 @@ public class CreateRentalRequest {
 	private int carId;
 	@NotNull
 	private int customerId;
-	
+
+	@NotNull
+	private int rentCityId;
+
+	private int returnCityId;
+
+	private double cityFee;
+
+	//private int additionalPropertyId;
+
 }

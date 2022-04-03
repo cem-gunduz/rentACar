@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.etiya.rentACar.entities.CarMaintenance;
+import com.etiya.rentACar.entities.Maintenance;
 
 @Repository
-public interface CarMaintenanceDao extends JpaRepository<CarMaintenance, Integer> {
+public interface MaintenanceDao extends JpaRepository<Maintenance, Integer> {
 
     Boolean existsMaintenanceByCarId (int carId);
-	List<CarMaintenance>getByCarId(int id);
+	List<Maintenance>getByCarId(int id);
 	
 
 }

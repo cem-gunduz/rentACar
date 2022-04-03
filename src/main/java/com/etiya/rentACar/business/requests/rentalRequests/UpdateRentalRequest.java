@@ -23,5 +23,9 @@ public class UpdateRentalRequest {
 	private int carId;
 	@NotNull
 	private int customerId;
-	
+	@NotNull
+	private  int rentCityId;
+
+	private  int returnCityId;
+	private double cityFee;
 }

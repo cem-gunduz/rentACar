@@ -16,8 +16,7 @@ public interface BrandService {
 	
 	Result add(CreateBrandRequest createBrandRequest);
 	DataResult<List<ListBrandDto>> getAll();
-	
-	void update(UpdateBrandRequest updateBrandRequest);
-	void delete(DeleteBrandRequest deleteBrandRequest);
+	Result update(UpdateBrandRequest updateBrandRequest);
+	Result delete(DeleteBrandRequest deleteBrandRequest);
 	
 }

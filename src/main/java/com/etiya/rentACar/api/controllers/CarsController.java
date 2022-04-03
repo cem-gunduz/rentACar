@@ -4,18 +4,14 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.etiya.rentACar.business.requests.carRequests.DeleteCarRequest;
+import com.etiya.rentACar.business.responses.carResponses.CarDto;
+import org.springframework.web.bind.annotation.*;
 
 import com.etiya.rentACar.business.abstracts.CarService;
 import com.etiya.rentACar.business.requests.carRequests.CreateCarRequest;
 import com.etiya.rentACar.business.requests.carRequests.UpdateCarRequest;
-import com.etiya.rentACar.business.requests.carRequests.UpdateCarStateRequest;
+import com.etiya.rentACar.business.requests.carRequests.UpdateCarStatusRequest;
 import com.etiya.rentACar.business.responses.carResponses.ListCarDto;
 import com.etiya.rentACar.core.utilities.results.DataResult;
 import com.etiya.rentACar.core.utilities.results.Result;
@@ -62,10 +58,21 @@ public class CarsController {
 		}
 		
 		@PutMapping("/updatecarstate")
-		public Result updateCarState(@RequestBody @Valid UpdateCarStateRequest updateCarStateRequest) {
+		public Result updateCarState(@RequestBody @Valid UpdateCarStatusRequest updateCarStateRequest) {
 			return this.carService.updateCarState(updateCarStateRequest);
 		}
-		
+	@DeleteMapping("/delete")
+	public Result delete(@RequestBody @Valid DeleteCarRequest deleteCarRequest) {
+		return this.carService.delete(deleteCarRequest);
+	}
+	@GetMapping("/getbycarid")
+	public DataResult<CarDto> getByCarId(@RequestParam int id) {
+		return this.carService.getByCarId(id);
+	}
+	@GetMapping("/getallbycity")
+	public DataResult<List<ListCarDto>> getAllByCity(@RequestParam ("city") String city){
+		return this.carService.getAllByCity(city);
+	}
 		
 	}
 
