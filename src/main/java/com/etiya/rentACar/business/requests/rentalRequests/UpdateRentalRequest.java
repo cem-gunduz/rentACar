@@ -28,4 +28,6 @@ public class UpdateRentalRequest {
 
 	private  int returnCityId;
 	private double cityFee;
+	private double startKilometer;
+	private double returnKilometer;
 }

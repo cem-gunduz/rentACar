@@ -23,4 +23,7 @@ public class ListRentalDto {
 	private int returnCityId;
 	private double cityFee;
 	private double totalPrice;
+	private double startKilometer;
+	private double returnKilometer;
+	private int rentalDay;
 }

@@ -16,4 +16,6 @@ public interface CarDao extends JpaRepository<Car, Integer>{
 	//List<Car>getByDescriptionContains(String description); //gönderrdiğin ifade içeren alanları verir
 	List<Car>getAllById(int id);
 	List<Car> getAllByCity(String city);
+
+
 }

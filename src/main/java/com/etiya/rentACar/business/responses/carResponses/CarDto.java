@@ -23,4 +23,5 @@ public class CarDto {
 
 	private LocalDate maintenanceReturnDate;
 	private String city;
+	private double carKilometer;
 }

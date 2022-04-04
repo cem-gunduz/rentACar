@@ -7,6 +7,7 @@ import com.etiya.rentACar.business.requests.damageRequest.DeleteDamageRequest;
 import com.etiya.rentACar.business.requests.carRequests.CreateCarRequest;
 import com.etiya.rentACar.business.requests.carRequests.UpdateCarRequest;
 import com.etiya.rentACar.business.requests.carRequests.UpdateCarStatusRequest;
+import com.etiya.rentACar.business.requests.rentalRequests.CreateRentalRequest;
 import com.etiya.rentACar.business.responses.carResponses.CarDto;
 import com.etiya.rentACar.business.responses.carResponses.ListCarDto;
 import com.etiya.rentACar.core.utilities.results.DataResult;
@@ -41,4 +42,7 @@ public interface CarService {
 	void checkIfCarAvailable(int id);
 
 	DataResult<List<ListCarDto>> getAllByCity(String city);
+
+	CarDto getCarKilometer(int id);
+	void setCarKilometer(CreateRentalRequest createRentalRequest);
 }

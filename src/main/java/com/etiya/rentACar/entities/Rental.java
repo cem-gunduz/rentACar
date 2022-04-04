@@ -1,16 +1,9 @@
 package com.etiya.rentACar.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -61,9 +54,15 @@ public class Rental {
 	@JoinColumn(name="rentCityId",referencedColumnName = "id")
 	private City rentCity;
 
+	@Column(name="startKilometer")
+	private double startKilometer;
 
+	@Column(name="returnKilometer")
+	private double returnKilometer;
 
-   /* @ManyToOne
-    @JoinColumn(name="city")
-    private City city;*/
+	@OneToMany(mappedBy="rental")
+	private List<Payment> payments;
+
+	@Column(name = "rentalDay")
+	private int rentalDay;
 }

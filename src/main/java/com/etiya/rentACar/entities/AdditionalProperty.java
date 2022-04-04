@@ -27,10 +27,6 @@ public class AdditionalProperty {
     @Column(name="dailyPrice")
     private double dailyPrice;
 
-//    @ManyToOne
-//    @JoinColumn(name = "rental_id")
-//    private Rental rental;
-
     @OneToMany(mappedBy = "additionalProperty")
     private List<Rental> rentals;
 }

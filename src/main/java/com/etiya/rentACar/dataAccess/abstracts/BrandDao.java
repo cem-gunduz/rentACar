@@ -12,5 +12,5 @@ import com.etiya.rentACar.entities.Brand;
 public interface BrandDao extends JpaRepository<Brand, Integer>{
 
 	List<Brand> getByName(String name);
-
+	Brand deleteById(int id);
 }

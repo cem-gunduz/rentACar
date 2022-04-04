@@ -41,4 +41,5 @@ public class UpdateCarRequest {
 	private String city;
 
 	private int customerId;
+	private double carKilometer;
 }

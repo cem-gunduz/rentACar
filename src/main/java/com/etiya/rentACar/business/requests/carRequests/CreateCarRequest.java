@@ -43,4 +43,7 @@ public class CreateCarRequest {
 	@NotNull
 	@Length(min=2)
 	private String city;
+
+	@NotNull
+	private double carKilometer;
 }

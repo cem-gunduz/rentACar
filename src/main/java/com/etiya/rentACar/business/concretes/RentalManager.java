@@ -52,13 +52,17 @@ public class RentalManager implements RentalService {
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 		rental.setReturnDate(null);
 		rental.setTotalPrice(addTotalPrice(createRentalRequest,additionalPropertyIdentities));
+
 		this.rentalDao.save(rental);
+
+		updateKilometer(createRentalRequest);
 
 		UpdateCarStatusRequest updateCarStatusRequest = new UpdateCarStatusRequest();
 		updateCarStatusRequest.setId(createRentalRequest.getCarId());
 		updateCarStatusRequest.setCarState(CarStates.Rented);
 		carService.updateCarState(updateCarStatusRequest);
 		return new SuccessResult("RENTAL_CAR_ADDED");
+
 	}
 
 	@Override
@@ -132,5 +136,15 @@ public class RentalManager implements RentalService {
 			totalPrice += result.getDailyPrice();
 		}
 		return totalPrice;
+	}
+	public void updateKilometer(CreateRentalRequest createRentalRequest){
+		CarDto carDto=this.carService.getCarKilometer(createRentalRequest.getCarId());
+		Rental rental=this.rentalDao.getByCarId(createRentalRequest.getCarId());
+		rental.setStartKilometer(carDto.getCarKilometer());
+
+	}
+	public Result lastKilometer(CreateRentalRequest createRentalRequest){
+		this.carService.setCarKilometer(createRentalRequest);
+	return new SuccessResult("Arabanın kilometresi güncellendi");
 	}
 }

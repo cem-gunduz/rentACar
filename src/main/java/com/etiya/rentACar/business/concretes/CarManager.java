@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.etiya.rentACar.business.requests.carRequests.DeleteCarRequest;
+import com.etiya.rentACar.business.requests.rentalRequests.CreateRentalRequest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -146,6 +147,19 @@ public class CarManager implements CarService {
 		List<Car> cars = this.carDao.getAllByCity(city);
 		List<ListCarDto> response = cars.stream().map(car -> this.modelMapperService.forDto().map(car, ListCarDto.class)).collect(Collectors.toList());
 		return new SuccessDataResult<List<ListCarDto>>(response);
+	}
+
+	@Override
+	public CarDto getCarKilometer(int id) {
+		Car car=this.carDao.getById(id);
+		CarDto carDto=this.modelMapperService.forDto().map(car,CarDto.class);
+		return carDto;
+	}
+
+	@Override
+	public void setCarKilometer(CreateRentalRequest createRentalRequest) {
+		Car car=this.carDao.getById(createRentalRequest.getCarId());
+		car.setCarKilometer(createRentalRequest.getReturnKilometer());
 	}
 
 

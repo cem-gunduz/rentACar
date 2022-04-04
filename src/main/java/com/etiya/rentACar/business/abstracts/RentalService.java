@@ -17,4 +17,6 @@ public interface RentalService {
 	Result updateRentalReturnDate(UpdateReturnDateRequest updateReturnDateRequest);
 	Result update(UpdateRentalRequest updateRentalRequest,List<Integer>additionalPropertyIdentities);
 	Result delete(DeleteRentalRequest deleteRentalRequest);
+
+
 }
