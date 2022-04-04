@@ -17,4 +17,5 @@ public class PaymentDto {
     private String customerName;
 
     private int CustomerId;
+    private double totalPricePayment;
 }

@@ -25,5 +25,6 @@ public class ListPaymentDto {
     private String customerName;
 
     private int CustomerId;
+    private double totalPricePayment;
 
 }

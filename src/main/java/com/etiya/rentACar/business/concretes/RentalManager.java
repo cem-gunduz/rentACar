@@ -8,6 +8,7 @@ import com.etiya.rentACar.business.abstracts.AdditionalPropertyService;
 import com.etiya.rentACar.business.constants.messages.BusinessMessages;
 import com.etiya.rentACar.business.requests.additionalPropertyRequests.CreateAdditionalPropertyRequest;
 import com.etiya.rentACar.business.requests.carRequests.UpdateCarStatusRequest;
+import com.etiya.rentACar.business.requests.paymentRequests.CreatePaymentRequest;
 import com.etiya.rentACar.business.requests.rentalRequests.*;
 import com.etiya.rentACar.business.responses.additionalPropertyResponses.AdditionalPropertyDto;
 import com.etiya.rentACar.business.responses.additionalPropertyResponses.ListAdditionalPropertyDto;
@@ -46,7 +47,7 @@ public class RentalManager implements RentalService {
 	}
 
 	@Override
-	public Result add(CreateRentalRequest createRentalRequest,List<Integer>additionalPropertyIdentities) {
+	public Result add(CreateRentalRequest createRentalRequest) {
 
 		carService.checkIfCarAvailable(createRentalRequest.getCarId());
 		checkKilometer(createRentalRequest);//
@@ -85,7 +86,7 @@ public class RentalManager implements RentalService {
 	}
 
 	@Override
-	public Result update(UpdateRentalRequest updateRentalRequest,List<Integer>additionalPropertyIdentities) {
+	public Result update(UpdateRentalRequest updateRentalRequest) {
 		CreateRentalRequest createRentalRequest = this.modelMapperService.forRequest().map(updateRentalRequest, CreateRentalRequest.class);
 		//addTotalPrice(createRentalRequest,additionalPropertyIdentities);
 		Rental rental = this.modelMapperService.forRequest().map(updateRentalRequest, Rental.class);
@@ -131,6 +132,21 @@ public class RentalManager implements RentalService {
 		Rental rental=this.rentalDao.getByCustomerId(id);
 		RentalDto rentalDto=this.modelMapperService.forDto().map(rental,RentalDto.class);
 		return rentalDto;
+	}
+	public double checkCity(CreateRentalRequest createRentalRequest) {
+		if (createRentalRequest.getRentCityId() != createRentalRequest.getReturnCityId()) {
+			return createRentalRequest.getCityFee();
+		}
+		return 0;
+	}
+
+	public int diffDates(CreateRentalRequest createRentalRequest) {
+		Rental rental=this.rentalDao.getByCustomerId(createRentalRequest.getCustomerId());
+
+		long period = ChronoUnit.DAYS.between(rental.getRentDate(),rental.getReturnDate());
+		rental.setRentalDay((int)period);
+		return (int)period;
+
 	}
 
 

@@ -34,7 +34,7 @@ public class Rental {
 	@JoinColumn(name="customer_id")
 	private Customer customer;
 
-	@Column(name="totalPrice")
+	@Column(name="totalPrice") //
 	private double totalPrice;
 
 	@Column(name="cityFee")

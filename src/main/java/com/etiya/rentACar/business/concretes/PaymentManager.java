@@ -4,6 +4,7 @@ import com.etiya.rentACar.business.abstracts.AdditionalPropertyService;
 import com.etiya.rentACar.business.abstracts.CarService;
 import com.etiya.rentACar.business.abstracts.PaymentService;
 import com.etiya.rentACar.business.abstracts.RentalService;
+import com.etiya.rentACar.business.requests.carRequests.UpdateCarStatusRequest;
 import com.etiya.rentACar.business.requests.paymentRequests.CreatePaymentRequest;
 import com.etiya.rentACar.business.requests.paymentRequests.DeletePaymentRequest;
 import com.etiya.rentACar.business.requests.paymentRequests.UpdatePaymentRequest;
@@ -16,7 +17,9 @@ import com.etiya.rentACar.core.utilities.results.Result;
 import com.etiya.rentACar.core.utilities.results.SuccessDataResult;
 import com.etiya.rentACar.core.utilities.results.SuccessResult;
 import com.etiya.rentACar.dataAccess.abstracts.PaymentDao;
+import com.etiya.rentACar.entities.CarStates;
 import com.etiya.rentACar.entities.Payment;
+import com.etiya.rentACar.entities.Rental;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
@@ -49,11 +52,16 @@ public class PaymentManager implements PaymentService {
     }
 
     @Override
-    public Result add(CreatePaymentRequest createPaymentRequest) {
+    public Result add(CreatePaymentRequest createPaymentRequest,List<Integer>additionalPropertyIdentities) {
 
+        RentalDto rentalDto=this.rentalService.getRentalByCustomerId(createPaymentRequest.getCustomerId());
         Payment payment = this.modelMapperService.forRequest().map(createPaymentRequest, Payment.class);
-        this.paymentDao.save(payment);
+
+
+        payment.setTotalPricePayment(addTotalPrice(createPaymentRequest,additionalPropertyIdentities));
+
         return new SuccessResult("Payment added");
+
     }
 
     @Override
@@ -80,24 +88,19 @@ public class PaymentManager implements PaymentService {
     }
 
 
-    public int diffDates(CreatePaymentRequest createPaymentRequest) {
-        RentalDto rentalDto=this.rentalService.getRentalByCustomerId(createPaymentRequest.getCustomerId());
-
-        long period = ChronoUnit.DAYS.between(rentalDto.getRentDate(),rentalDto.getReturnDate());
-        rentalDto.setRentalDay((int)period);
-        return (int)period;
-
-    }
-
-    public double checkCity(CreatePaymentRequest createPaymentRequest) {
-        RentalDto rentalDto=this.rentalService.getRentalByCustomerId(createPaymentRequest.getCustomerId());
-        if (rentalDto.getRentCityId() != rentalDto.getReturnCityId() ) {
-            return rentalDto.getCityFee();
-        }
-        return 0;
 
 
-    }
+
+//    public int diffDates(CreatePaymentRequest createPaymentRequest) {
+//        RentalDto rentalDto=this.rentalService.getRentalByCustomerId(createPaymentRequest.getCustomerId());
+//
+//        long period = ChronoUnit.DAYS.between(rentalDto.getRentDate(),rentalDto.getReturnDate());
+//        rentalDto.setRentalDay((int)period);
+//        return (int)period;
+//
+//    }
+
+
 
     public double additionalPropertyTotal(List<Integer>additionalPropertyIdentities) {
         double totalPrice = 0;

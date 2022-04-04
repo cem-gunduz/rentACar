@@ -13,10 +13,10 @@ import com.etiya.rentACar.business.requests.rentalRequests.*;
 public interface RentalService {
 	DataResult<List<ListRentalDto>> getAll();
 
-	Result add(CreateRentalRequest createRentalRequest,List<Integer>additionalPropertyIdentities);
+	Result add(CreateRentalRequest createRentalRequest);
 
 	Result updateRentalReturnDate(UpdateReturnDateRequest updateReturnDateRequest);
-	Result update(UpdateRentalRequest updateRentalRequest,List<Integer>additionalPropertyIdentities);
+	Result update(UpdateRentalRequest updateRentalRequest);
 	Result delete(DeleteRentalRequest deleteRentalRequest);
 	//Result lastKilometer(CreateRentalRequest createRentalRequest);
 	RentalDto getRentalByCarId(int id);

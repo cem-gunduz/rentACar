@@ -29,6 +29,8 @@ public class Payment {
     @JoinColumn(name = "rental_id")
     private Rental rental;
 
+    @Column(name="totalPricePayment")
+    private double totalPricePayment; //
 
 
 
