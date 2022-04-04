@@ -25,4 +25,6 @@ public class CreatePaymentRequest {
     private double totalPrice;
     @JsonIgnore
     private String customerName;
+
+    private int CustomerId;
 }

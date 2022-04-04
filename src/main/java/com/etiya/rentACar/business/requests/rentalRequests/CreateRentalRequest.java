@@ -38,5 +38,6 @@ public class CreateRentalRequest {
 	private double startKilometer;
 
 	private double returnKilometer;
-
+	//@JsonIgnore
+	//private int rentalDay;
 }

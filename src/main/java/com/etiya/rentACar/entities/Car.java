@@ -69,4 +69,6 @@ public class Car {
 	@Column(name="carKilometer")
 	private double carKilometer;
 
+
+
 }

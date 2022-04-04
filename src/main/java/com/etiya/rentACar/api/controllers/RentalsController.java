@@ -54,5 +54,9 @@ public class RentalsController {
 //
 //        return this.rentalService.lateFee(differentRentDeliveryCityRequest);
 //    }
+//	@PostMapping("/updatelastkilometer")
+//	public Result lastKilometer(CreateRentalRequest createRentalRequest){
+//			return this.rentalService.lastKilometer(createRentalRequest);
+//	}
 	
 }

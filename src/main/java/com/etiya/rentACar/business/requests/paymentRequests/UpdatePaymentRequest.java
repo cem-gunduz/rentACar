@@ -23,4 +23,5 @@ public class UpdatePaymentRequest {
     private double totalPrice;
     @JsonIgnore
     private String customerName;
+    private int CustomerId;
 }

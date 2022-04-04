@@ -6,6 +6,7 @@ import com.etiya.rentACar.business.requests.rentalRequests.CreateRentalRequest;
 import com.etiya.rentACar.business.requests.rentalRequests.DeleteRentalRequest;
 import com.etiya.rentACar.business.requests.rentalRequests.UpdateRentalRequest;
 import com.etiya.rentACar.business.responses.rentalResponses.ListRentalDto;
+import com.etiya.rentACar.business.responses.rentalResponses.RentalDto;
 import com.etiya.rentACar.core.utilities.results.DataResult;
 import com.etiya.rentACar.core.utilities.results.Result;
 import com.etiya.rentACar.business.requests.rentalRequests.*;
@@ -17,6 +18,8 @@ public interface RentalService {
 	Result updateRentalReturnDate(UpdateReturnDateRequest updateReturnDateRequest);
 	Result update(UpdateRentalRequest updateRentalRequest,List<Integer>additionalPropertyIdentities);
 	Result delete(DeleteRentalRequest deleteRentalRequest);
-
+	//Result lastKilometer(CreateRentalRequest createRentalRequest);
+	RentalDto getRentalByCarId(int id);
+	RentalDto getRentalByCustomerId(int id);
 
 }
