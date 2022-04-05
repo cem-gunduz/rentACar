@@ -22,4 +22,5 @@ public interface RentalService {
 	RentalDto getRentalByCarId(int id);
 	RentalDto getRentalByCustomerId(int id);
 
+
 }

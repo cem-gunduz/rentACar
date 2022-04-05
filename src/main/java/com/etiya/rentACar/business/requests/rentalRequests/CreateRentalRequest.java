@@ -33,11 +33,9 @@ public class CreateRentalRequest {
 
 	private double cityFee;
 
-	//private int additionalPropertyId;
 	@JsonIgnore
 	private double startKilometer;
 
 	private double returnKilometer;
-	//@JsonIgnore
-	//private int rentalDay;
+
 }

@@ -44,7 +44,7 @@ public class Customer {
 	private List<Rental> rentals;
 
 	@OneToMany(mappedBy="customer")
-	private List<Payment> payments;
+	private List<Invoice> payments;
 	
 	
 }

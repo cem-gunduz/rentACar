@@ -40,4 +40,12 @@ public class BusinessMessages {
 		public static final String CUSTOMER = " !";
 
 	}
+	public class InvoiceMessage {
+		public static final String INVOICE = " !";
+		public static final String INVOICE_ADDED="FATURA EKLENDİ";
+		public static final String INVOICE_UPDATED="FATURA GÜNCELLENDİ";
+		public static final String INVOICE_DELETED="FATURA SİLİNDİ";
+
+	}
+
 }

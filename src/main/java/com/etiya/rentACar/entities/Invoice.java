@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "payments")
-public class Payment {
+@Table(name = "invoices")
+public class Invoice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,13 +25,16 @@ public class Payment {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "rental_id")
-    private Rental rental;
-
     @Column(name="totalPricePayment")
     private double totalPricePayment; //
+    @Column(name="rentDate")
+    private LocalDate rentDate;
+    @Column(name = "returnDate")
+    private LocalDate returnDate;
+    @Column(name="billNo")
+    private String billNo;
 
-
+    @Column(name = "dayCount")
+    private int dayCount;
 
 }

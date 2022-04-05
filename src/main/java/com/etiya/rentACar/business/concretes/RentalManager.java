@@ -1,24 +1,14 @@
 package com.etiya.rentACar.business.concretes;
-import java.time.Period;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.etiya.rentACar.business.abstracts.AdditionalPropertyService;
-import com.etiya.rentACar.business.constants.messages.BusinessMessages;
-import com.etiya.rentACar.business.requests.additionalPropertyRequests.CreateAdditionalPropertyRequest;
 import com.etiya.rentACar.business.requests.carRequests.UpdateCarStatusRequest;
-import com.etiya.rentACar.business.requests.paymentRequests.CreatePaymentRequest;
 import com.etiya.rentACar.business.requests.rentalRequests.*;
-import com.etiya.rentACar.business.responses.additionalPropertyResponses.AdditionalPropertyDto;
-import com.etiya.rentACar.business.responses.additionalPropertyResponses.ListAdditionalPropertyDto;
 import com.etiya.rentACar.business.responses.carResponses.CarDto;
 import com.etiya.rentACar.business.responses.rentalResponses.RentalDto;
 import com.etiya.rentACar.core.crossCuttingConcerns.exceptionHandling.BusinessException;
-import com.etiya.rentACar.entities.AdditionalProperty;
 import com.etiya.rentACar.entities.CarStates;
-import org.apache.tomcat.jni.Local;
-import org.hibernate.sql.Update;
 import org.springframework.stereotype.Service;
 
 import com.etiya.rentACar.business.abstracts.CarService;
@@ -52,7 +42,7 @@ public class RentalManager implements RentalService {
 		carService.checkIfCarAvailable(createRentalRequest.getCarId());
 		checkKilometer(createRentalRequest);//
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
-		rental.setReturnDate(null);
+		//rental.setReturnDate(null);
 		//rental.setTotalPrice(addTotalPrice(createRentalRequest,additionalPropertyIdentities));
 
 		this.rentalDao.save(rental);
@@ -112,10 +102,11 @@ public class RentalManager implements RentalService {
 		this.carService.setCarKilometer(createRentalRequest);
 	return new SuccessResult("Arabanın kilometresi güncellendi");
 	}
+
 	public void checkKilometer(CreateRentalRequest createRentalRequest){ //
 		CarDto carDto=this.carService.getCarKilometer(createRentalRequest.getCarId());
 		if(createRentalRequest.getReturnKilometer()<carDto.getCarKilometer()){
-			throw new BusinessException("!!");
+			throw new BusinessException("!!BEYZA'S REQUEST!!");
 
 		}
 
@@ -133,21 +124,9 @@ public class RentalManager implements RentalService {
 		RentalDto rentalDto=this.modelMapperService.forDto().map(rental,RentalDto.class);
 		return rentalDto;
 	}
-	public double checkCity(CreateRentalRequest createRentalRequest) {
-		if (createRentalRequest.getRentCityId() != createRentalRequest.getReturnCityId()) {
-			return createRentalRequest.getCityFee();
-		}
-		return 0;
-	}
 
-	public int diffDates(CreateRentalRequest createRentalRequest) {
-		Rental rental=this.rentalDao.getByCustomerId(createRentalRequest.getCustomerId());
 
-		long period = ChronoUnit.DAYS.between(rental.getRentDate(),rental.getReturnDate());
-		rental.setRentalDay((int)period);
-		return (int)period;
 
-	}
 
 
 }

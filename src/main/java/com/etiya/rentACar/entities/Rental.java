@@ -39,12 +39,6 @@ public class Rental {
 
 	@Column(name="cityFee")
 	private double cityFee;
-//    @OneToMany(mappedBy = "rental")
-//    private List<AdditionalProperty> additionalProperties;
-	@ManyToOne
-	@JoinColumn(name="additionalProperty_id")
-	private AdditionalProperty additionalProperty;
-
 
 	@ManyToOne
 	@JoinColumn(name="returnCityId",referencedColumnName = "id")
@@ -60,9 +54,7 @@ public class Rental {
 	@Column(name="returnKilometer")
 	private double returnKilometer;
 
-	@OneToMany(mappedBy="rental")
-	private List<Payment> payments;
+	@OneToMany(mappedBy = "rental")
+	private List<OrderedAdditionalProperty>orderedAdditionalProperties;
 
-	@Column(name = "rentalDay")
-	private int rentalDay;
 }

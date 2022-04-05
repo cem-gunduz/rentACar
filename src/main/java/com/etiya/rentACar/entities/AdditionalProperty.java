@@ -28,5 +28,6 @@ public class AdditionalProperty {
     private double dailyPrice;
 
     @OneToMany(mappedBy = "additionalProperty")
-    private List<Rental> rentals;
+    private List<OrderedAdditionalProperty> orderedAdditionalProperties;
+
 }
